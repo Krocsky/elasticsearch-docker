@@ -111,6 +111,7 @@ else
     echo "waiting for Elasticsearch to be up ($counter/$ES_CONNECT_RETRY)"
   done
   if [ ! "$(curl -k ${ELASTICSEARCH_URL} 2> /dev/null)" ]; then
+    echo "The parameter is ${ELASTICSEARCH_URL}"
     echo "Couln't start Elasticsearch. Exiting."
     echo "Elasticsearch log follows below."
     cat /var/log/elasticsearch/elasticsearch.log
