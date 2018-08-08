@@ -68,7 +68,7 @@ path.repo: /var/backups
 # Set the bind address to a specific IP (IPv4 or IPv6):
 #
 #network.host: 192.168.0.1
-network.host: 39.107.78.138
+network.host: 0.0.0.0
 #
 # Set a custom port for HTTP:
 #
@@ -85,7 +85,7 @@ transport.tcp.port: 9300
 # Pass an initial list of hosts to perform discovery when new node is started:
 # The default list of hosts is ["127.0.0.1", "[::1]"]
 #
-discovery.zen.ping.unicast.hosts: ["39.107.78.138:9300", "39.105.83.26:9300"]
+# discovery.zen.ping.unicast.hosts: ["39.107.78.138:9300"]
 #
 # Prevent the "split brain" by configuring the majority of nodes (total number of master-eligible nodes / 2 + 1):
 #
