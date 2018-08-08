@@ -20,11 +20,22 @@ cluster.name: cybereits-dev
 #
 # Use a descriptive name for the node:
 #
-node.name: dev-1
+node.name: dev-master
 #
 # Add custom attributes to the node:
 #
 #node.attr.rack: r1
+#
+# Every node can be configured to allow or deny being eligible as the master,
+# and to allow or deny to store the data.
+#
+# Allow this node to be eligible as a master node (enabled by default):
+#
+node.master: true
+#
+# Allow this node to store data (enabled by default):
+#
+node.data: false
 #
 # ----------------------------------- Paths ------------------------------------
 #
@@ -57,7 +68,7 @@ path.repo: /var/backups
 # Set the bind address to a specific IP (IPv4 or IPv6):
 #
 #network.host: 192.168.0.1
-network.host: 0.0.0.0
+network.host: 39.107.78.138
 #
 # Set a custom port for HTTP:
 #
@@ -65,12 +76,16 @@ network.host: 0.0.0.0
 #
 # For more information, consult the network module documentation.
 #
+# Set a custom port for the node to node communication (9300 by default):
+#
+transport.tcp.port: 9300
+#
 # --------------------------------- Discovery ----------------------------------
 #
 # Pass an initial list of hosts to perform discovery when new node is started:
 # The default list of hosts is ["127.0.0.1", "[::1]"]
 #
-#discovery.zen.ping.unicast.hosts: ["host1", "host2"]
+discovery.zen.ping.unicast.hosts: ["39.107.78.138:9300", "39.105.83.26:9300"]
 #
 # Prevent the "split brain" by configuring the majority of nodes (total number of master-eligible nodes / 2 + 1):
 #
