@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # /usr/local/bin/start.sh
-# Start Elasticsearch, Logstash and Kibana services
+# Start Elasticsearch and Kibana services
 #
 # spujadas 2015-10-09; added initial pidfile removal and graceful termination
 
@@ -14,9 +14,8 @@
 ## handle termination gracefully
 
 _term() {
-  echo "Terminating ELK"
+  echo "Terminating ES"
   service elasticsearch stop
-  service logstash stop
   service kibana stop
   exit 0
 }
@@ -29,8 +28,7 @@ trap _term SIGTERM SIGINT
 #   but if it's good enough for Fedora (https://goo.gl/88eyXJ), it's good
 #   enough for me :)
 
-rm -f /var/run/elasticsearch/elasticsearch.pid /var/run/logstash.pid \
-  /var/run/kibana5.pid
+rm -f /var/run/elasticsearch/elasticsearch.pid /var/run/kibana5.pid
 
 ## initialise list of log files to stream in console (initially empty)
 OUTPUT_LOGFILES=""
@@ -135,34 +133,6 @@ else
   OUTPUT_LOGFILES+="/var/log/elasticsearch/${CLUSTER_NAME}.log "
 fi
 
-
-### Logstash
-
-if [ -z "$LOGSTASH_START" ]; then
-  LOGSTASH_START=1
-fi
-if [ "$LOGSTASH_START" -ne "1" ]; then
-  echo "LOGSTASH_START is set to something different from 1, not starting..."
-else
-  # override LS_HEAP_SIZE variable if set
-  if [ ! -z "$LS_HEAP_SIZE" ]; then
-    awk -v LINE="-Xmx$LS_HEAP_SIZE" '{ sub(/^.Xmx.*/, LINE); print; }' ${LOGSTASH_PATH_SETTINGS}/jvm.options \
-        > ${LOGSTASH_PATH_SETTINGS}/jvm.options.new && mv ${LOGSTASH_PATH_SETTINGS}/jvm.options.new ${LOGSTASH_PATH_SETTINGS}/jvm.options
-    awk -v LINE="-Xms$LS_HEAP_SIZE" '{ sub(/^.Xms.*/, LINE); print; }' ${LOGSTASH_PATH_SETTINGS}/jvm.options \
-        > ${LOGSTASH_PATH_SETTINGS}/jvm.options.new && mv ${LOGSTASH_PATH_SETTINGS}/jvm.options.new ${LOGSTASH_PATH_SETTINGS}/jvm.options
-  fi
-
-  # override LS_OPTS variable if set
-  if [ ! -z "$LS_OPTS" ]; then
-    awk -v LINE="LS_OPTS=\"$LS_OPTS\"" '{ sub(/^LS_OPTS=.*/, LINE); print; }' /etc/init.d/logstash \
-        > /etc/init.d/logstash.new && mv /etc/init.d/logstash.new /etc/init.d/logstash && chmod +x /etc/init.d/logstash
-  fi
-
-  service logstash start
-  OUTPUT_LOGFILES+="/var/log/logstash/logstash-plain.log "
-fi
-
-
 ### Kibana
 
 if [ -z "$KIBANA_START" ]; then
@@ -182,8 +152,7 @@ else
 fi
 
 # Exit if nothing has been started
-if [ "$ELASTICSEARCH_START" -ne "1" ] && [ "$LOGSTASH_START" -ne "1" ] \
-  && [ "$KIBANA_START" -ne "1" ]; then
+if [ "$ELASTICSEARCH_START" -ne "1" ] && [ "$KIBANA_START" -ne "1" ]; then
   >&2 echo "No services started. Exiting."
   exit 1
 fi
