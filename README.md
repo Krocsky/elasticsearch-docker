@@ -1,3 +1,3 @@
 # Elasticsearch
 
-just for elasticsearch Dockerfile
+for elasticsearch Dockerfile
