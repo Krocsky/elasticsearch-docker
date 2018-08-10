@@ -1,10 +1,15 @@
 # Dockerfile for ELK stack
-# Elasticsearch and Kibana 6.2.3
+# Elasticsearch, Logstash, Kibana 6.2.3
+
+# Build with:
+# docker build -t <repo-user>/elk .
 
 # Run with:
-# docker run -p 9200:9200 -p 5601:5601 dev1lmaycry/elasticsearch-docker
+# docker run -p 5601:5601 -p 9200:9200 -p 5044:5044 -it --name elk <repo-user>/elk
 
-FROM dev1lmaycry/elasticsearch-docker
+FROM phusion/baseimage
+MAINTAINER Sebastien Pujadas http://pujadas.net
+ENV REFRESHED_AT 2017-02-28
 
 
 ###############################################################################
