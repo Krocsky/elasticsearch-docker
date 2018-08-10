@@ -34,7 +34,6 @@ RUN set -x \
  && chmod +x /usr/local/bin/gosu \
  && gosu nobody true \
  && apt-get update -qq \
- && apt install zip unzip \
  && apt-get install -qqy openjdk-8-jdk tzdata \
  && apt-get clean \
  && set +x
@@ -60,10 +59,7 @@ RUN mkdir ${ES_HOME} \
  && useradd -r -s /usr/sbin/nologin -M -c "Elasticsearch service user" -u ${ES_UID} -g elasticsearch elasticsearch \
  && mkdir -p /var/log/elasticsearch ${ES_PATH_CONF} ${ES_PATH_CONF}/scripts /var/lib/elasticsearch ${ES_PATH_BACKUP} \
  && chown -R elasticsearch:elasticsearch ${ES_HOME} /var/log/elasticsearch /var/lib/elasticsearch ${ES_PATH_CONF} ${ES_PATH_BACKUP} \
- && mkdir -p /opt/elasticsearch/plugins/ik \
- && cd /opt/elasticsearch/plugins/ik \
- && wget https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.2.3/elasticsearch-analysis-ik-6.2.3.zip \
- && unzip elasticsearch-analysis-ik-6.2.3.zip
+ && ./opt/elasticsearch/bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.2.3/elasticsearch-analysis-ik-6.2.3.zip
 
 ADD ./elasticsearch-init /etc/init.d/elasticsearch
 RUN sed -i -e 's#^ES_HOME=$#ES_HOME='$ES_HOME'#' /etc/init.d/elasticsearch \
