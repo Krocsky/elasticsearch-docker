@@ -34,8 +34,7 @@ RUN set -x \
  && chmod +x /usr/local/bin/gosu \
  && gosu nobody true \
  && apt-get update -qq \
- && apt-get install wget \
- && apt-get install zip \
+ && apt install zip unzip \
  && apt-get install -qqy openjdk-8-jdk tzdata \
  && apt-get clean \
  && set +x
