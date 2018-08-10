@@ -35,7 +35,7 @@ RUN set -x \
  && gosu nobody true \
  && apt-get update -qq \
  && apt-get install wget \
- && apt-get install unzip \
+ && apt-get install zip \
  && apt-get install -qqy openjdk-8-jdk tzdata \
  && apt-get clean \
  && set +x
