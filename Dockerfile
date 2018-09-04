@@ -115,5 +115,4 @@ RUN chmod +x /usr/local/bin/start.sh
 EXPOSE 5601 9200 9300
 VOLUME /var/lib/elasticsearch
 
-
 CMD [ "/usr/local/bin/start.sh" ]
