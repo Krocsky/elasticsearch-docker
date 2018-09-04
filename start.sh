@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # /usr/local/bin/start.sh
-# Start Elasticsearch and Kibana services
+# Start Elasticsearch Kibana services
 #
 # spujadas 2015-10-09; added initial pidfile removal and graceful termination
 

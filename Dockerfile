@@ -1,14 +1,14 @@
-# Dockerfile for ELK stack
-# Elasticsearch, Logstash, Kibana 6.2.3
+# Dockerfile for Elasticsearch Kibana stack
+# Elasticsearch, Kibana 6.2.3
 
 # Build with:
-# docker build -t <repo-user>/elk .
+# docker build -t <repo-user>/ek .
 
 # Run with:
-# docker run -p 5601:5601 -p 9200:9200 -p 5044:5044 -it --name elk <repo-user>/elk
+# docker run -p 5601:5601 -p 9200:9200 -it --name ek <repo-user>/ek
 
 FROM phusion/baseimage
-MAINTAINER Sebastien Pujadas http://pujadas.net
+MAINTAINER Sebastien
 ENV REFRESHED_AT 2017-02-28
 
 
@@ -39,11 +39,11 @@ RUN set -x \
  && set +x
 
 
-ENV ELK_VERSION 6.2.3
+ENV ELASTIC_VERSION 6.4.0
 
 ### install Elasticsearch
 
-ENV ES_VERSION ${ELK_VERSION}
+ENV ES_VERSION ${ELASTIC_VERSION}
 ENV ES_HOME /opt/elasticsearch
 ENV ES_PACKAGE elasticsearch-${ES_VERSION}.tar.gz
 ENV ES_GID 991
@@ -58,7 +58,8 @@ RUN mkdir ${ES_HOME} \
  && groupadd -r elasticsearch -g ${ES_GID} \
  && useradd -r -s /usr/sbin/nologin -M -c "Elasticsearch service user" -u ${ES_UID} -g elasticsearch elasticsearch \
  && mkdir -p /var/log/elasticsearch ${ES_PATH_CONF} ${ES_PATH_CONF}/scripts /var/lib/elasticsearch ${ES_PATH_BACKUP} \
- && chown -R elasticsearch:elasticsearch ${ES_HOME} /var/log/elasticsearch /var/lib/elasticsearch ${ES_PATH_CONF} ${ES_PATH_BACKUP}
+ && chown -R elasticsearch:elasticsearch ${ES_HOME} /var/log/elasticsearch /var/lib/elasticsearch ${ES_PATH_CONF} ${ES_PATH_BACKUP} \
+ && ./opt/elasticsearch/bin/elasticsearch-plugin install --batch https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v${ELASTIC_VERSION}/elasticsearch-analysis-ik-${ELASTIC_VERSION}.zip
 
 ADD ./elasticsearch-init /etc/init.d/elasticsearch
 RUN sed -i -e 's#^ES_HOME=$#ES_HOME='$ES_HOME'#' /etc/init.d/elasticsearch \
@@ -66,7 +67,7 @@ RUN sed -i -e 's#^ES_HOME=$#ES_HOME='$ES_HOME'#' /etc/init.d/elasticsearch \
 
 ### install Kibana
 
-ENV KIBANA_VERSION ${ELK_VERSION}
+ENV KIBANA_VERSION ${ELASTIC_VERSION}
 ENV KIBANA_HOME /opt/kibana
 ENV KIBANA_PACKAGE kibana-${KIBANA_VERSION}-linux-x86_64.tar.gz
 ENV KIBANA_GID 993
