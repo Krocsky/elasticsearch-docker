@@ -2,10 +2,10 @@
 # Elasticsearch, Kibana 6.2.3
 
 # Build with:
-# docker build -t <repo-user>/elk .
+# docker build -t <repo-user>/ek .
 
 # Run with:
-# docker run -p 5601:5601 -p 9200:9200 -p 5044:5044 -it --name elk <repo-user>/elk
+# docker run -p 5601:5601 -p 9200:9200 -it --name ek <repo-user>/ek
 
 FROM phusion/baseimage
 MAINTAINER Sebastien
