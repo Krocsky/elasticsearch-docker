@@ -1,5 +1,5 @@
-# Dockerfile for Elasticsearch Kibana
-# Elasticsearch, Kibana 6.4.0
+# Dockerfile for Elasticsearch
+# Elasticsearch 6.4.0
 
 # Build with:
 # docker build -t <repo-user>/ek .
