@@ -1,7 +1,11 @@
 #!/bin/bash
 #
 # /usr/local/bin/start.sh
+<<<<<<< HEAD
 # Start Elasticsearch services
+=======
+# Start Elasticsearch Kibana services
+>>>>>>> ca775c2cc6f16430b61995763c98da7bf47b91e9
 #
 # spujadas 2015-10-09; added initial pidfile removal and graceful termination
 
@@ -16,6 +20,10 @@
 _term() {
   echo "Terminating ES"
   service elasticsearch stop
+<<<<<<< HEAD
+=======
+  service kibana stop
+>>>>>>> ca775c2cc6f16430b61995763c98da7bf47b91e9
   exit 0
 }
 
@@ -27,7 +35,11 @@ trap _term SIGTERM SIGINT
 #   but if it's good enough for Fedora (https://goo.gl/88eyXJ), it's good
 #   enough for me :)
 
+<<<<<<< HEAD
 rm -f /var/run/elasticsearch/elasticsearch.pid
+=======
+rm -f /var/run/elasticsearch/elasticsearch.pid /var/run/kibana5.pid
+>>>>>>> ca775c2cc6f16430b61995763c98da7bf47b91e9
 
 ## initialise list of log files to stream in console (initially empty)
 OUTPUT_LOGFILES=""
@@ -132,6 +144,68 @@ else
   OUTPUT_LOGFILES+="/var/log/elasticsearch/${CLUSTER_NAME}.log "
 fi
 
+<<<<<<< HEAD
+=======
+### Kibana
+
+if [ -z "$KIBANA_START" ]; then
+  KIBANA_START=1
+fi
+if [ "$KIBANA_START" -ne "1" ]; then
+  echo "KIBANA_START is set to something different from 1, not starting..."
+else
+  # override NODE_OPTIONS variable if set
+  if [ ! -z "$NODE_OPTIONS" ]; then
+    awk -v LINE="NODE_OPTIONS=\"$NODE_OPTIONS\"" '{ sub(/^NODE_OPTIONS=.*/, LINE); print; }' /etc/init.d/kibana \
+        > /etc/init.d/kibana.new && mv /etc/init.d/kibana.new /etc/init.d/kibana && chmod +x /etc/init.d/kibana
+  fi
+
+  service kibana start
+  OUTPUT_LOGFILES+="/var/log/kibana/kibana5.log "
+fi
+
+# Exit if nothing has been started
+if [ "$ELASTICSEARCH_START" -ne "1" ] && [ "$KIBANA_START" -ne "1" ]; then
+  >&2 echo "No services started. Exiting."
+  exit 1
+fi
+
+
+## run post-hooks
+if [ -x /usr/local/bin/elk-post-hooks.sh ]; then
+  ### if Kibana was started...
+  if [ "$KIBANA_START" -eq "1" ]; then
+
+  ### ... then wait for Kibana to be up first to ensure that .kibana index is
+  ### created before the of post-hooks are executed
+    # set number of retries (default: 30, override using KIBANA_CONNECT_RETRY env var)
+    if ! [[ $KIBANA_CONNECT_RETRY =~ $re_is_numeric ]] ; then
+       KIBANA_CONNECT_RETRY=30
+    fi
+
+    if [ -z "$KIBANA_URL" ]; then
+      KIBANA_URL=http://localhost:5601
+    fi
+
+    counter=0
+    while [ ! "$(curl ${KIBANA_URL} 2> /dev/null)" -a $counter -lt $KIBANA_CONNECT_RETRY  ]; do
+      sleep 1
+      ((counter++))
+      echo "waiting for Kibana to be up ($counter/$KIBANA_CONNECT_RETRY)"
+    done
+    if [ ! "$(curl ${KIBANA_URL} 2> /dev/null)" ]; then
+      echo "Couln't start Kibana. Exiting."
+      echo "Kibana log follows below."
+      cat /var/log/kibana/kibana5.log
+      exit 1
+    fi
+  fi
+
+  . /usr/local/bin/elk-post-hooks.sh
+fi
+
+
+>>>>>>> ca775c2cc6f16430b61995763c98da7bf47b91e9
 touch $OUTPUT_LOGFILES
 tail -f $OUTPUT_LOGFILES &
 wait

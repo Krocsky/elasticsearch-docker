@@ -1,15 +1,15 @@
-# Dockerfile for Elasticsearch
-# Elasticsearch 6.4.0
+# Dockerfile for Elasticsearch Kibana stack
+# Elasticsearch, Kibana 6.2.3
 
 # Build with:
-# docker build -t <repo-user>/es .
+# docker build -t <repo-user>/ek .
 
 # Run with:
-# docker run -p 9200:9200 -it --name ek <repo-user>/es
+# docker run -p 5601:5601 -p 9200:9200 -it --name ek <repo-user>/ek
 
 FROM phusion/baseimage
 MAINTAINER Sebastien
-ENV REFRESHED_AT 2018-09-06
+ENV REFRESHED_AT 2017-02-28
 
 
 ###############################################################################
@@ -60,11 +60,32 @@ RUN mkdir ${ES_HOME} \
  && mkdir -p /var/log/elasticsearch ${ES_PATH_CONF} ${ES_PATH_CONF}/scripts /var/lib/elasticsearch ${ES_PATH_BACKUP} \
  && chown -R elasticsearch:elasticsearch ${ES_HOME} /var/log/elasticsearch /var/lib/elasticsearch ${ES_PATH_CONF} ${ES_PATH_BACKUP} \
  && ./opt/elasticsearch/bin/elasticsearch-plugin install --batch https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v${ELASTIC_VERSION}/elasticsearch-analysis-ik-${ELASTIC_VERSION}.zip
- #&& ./opt/elasticsearch/bin/elasticsearch-plugin install --batch royrusso/elasticsearch-HQ
 
 ADD ./elasticsearch-init /etc/init.d/elasticsearch
 RUN sed -i -e 's#^ES_HOME=$#ES_HOME='$ES_HOME'#' /etc/init.d/elasticsearch \
  && chmod +x /etc/init.d/elasticsearch
+
+### install Kibana
+
+ENV KIBANA_VERSION ${ELASTIC_VERSION}
+ENV KIBANA_HOME /opt/kibana
+ENV KIBANA_PACKAGE kibana-${KIBANA_VERSION}-linux-x86_64.tar.gz
+ENV KIBANA_GID 993
+ENV KIBANA_UID 993
+
+RUN mkdir ${KIBANA_HOME} \
+ && curl -O https://artifacts.elastic.co/downloads/kibana/${KIBANA_PACKAGE} \
+ && tar xzf ${KIBANA_PACKAGE} -C ${KIBANA_HOME} --strip-components=1 \
+ && rm -f ${KIBANA_PACKAGE} \
+ && groupadd -r kibana -g ${KIBANA_GID} \
+ && useradd -r -s /usr/sbin/nologin -d ${KIBANA_HOME} -c "Kibana service user" -u ${KIBANA_UID} -g kibana kibana \
+ && mkdir -p /var/log/kibana \
+ && chown -R kibana:kibana ${KIBANA_HOME} /var/log/kibana
+
+ADD ./kibana-init /etc/init.d/kibana
+RUN sed -i -e 's#^KIBANA_HOME=$#KIBANA_HOME='$KIBANA_HOME'#' /etc/init.d/kibana \
+ && chmod +x /etc/init.d/kibana
+
 
 ###############################################################################
 #                               CONFIGURATION
@@ -79,6 +100,11 @@ RUN cp ${ES_HOME}/config/log4j2.properties ${ES_HOME}/config/jvm.options \
  && chown -R elasticsearch:elasticsearch ${ES_PATH_CONF} \
  && chmod -R +r ${ES_PATH_CONF}
 
+### configure Kibana
+
+ADD ./kibana.yml ${KIBANA_HOME}/config/kibana.yml
+
+
 ###############################################################################
 #                                   START
 ###############################################################################
@@ -86,7 +112,7 @@ RUN cp ${ES_HOME}/config/log4j2.properties ${ES_HOME}/config/jvm.options \
 ADD ./start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
 
-EXPOSE 9200 9300
+EXPOSE 5601 9200 9300
 VOLUME /var/lib/elasticsearch
 
 CMD [ "/usr/local/bin/start.sh" ]
