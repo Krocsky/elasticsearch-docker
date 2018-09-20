@@ -20,7 +20,7 @@ cluster.name: cybereits-dev
 #
 # Use a descriptive name for the node:
 #
-node.name: dev-master-two
+node.name: master-two
 #
 # Add custom attributes to the node:
 #
