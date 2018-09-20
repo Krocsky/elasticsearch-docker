@@ -1,14 +1,9 @@
 #!/bin/bash
 #
 # /usr/local/bin/start.sh
-<<<<<<< HEAD
 # Start Elasticsearch services
-=======
-# Start Elasticsearch Kibana services
->>>>>>> ca775c2cc6f16430b61995763c98da7bf47b91e9
 #
 # spujadas 2015-10-09; added initial pidfile removal and graceful termination
-
 # WARNING - This script assumes that the ELK services are not running, and is
 #   only expected to be run once, when the container is started.
 #   Do not attempt to run this script if the ELK services are running (or be
@@ -20,10 +15,6 @@
 _term() {
   echo "Terminating ES"
   service elasticsearch stop
-<<<<<<< HEAD
-=======
-  service kibana stop
->>>>>>> ca775c2cc6f16430b61995763c98da7bf47b91e9
   exit 0
 }
 
@@ -34,12 +25,7 @@ trap _term SIGTERM SIGINT
 # NOTE - This is the reason for the WARNING at the top - it's a bit hackish,
 #   but if it's good enough for Fedora (https://goo.gl/88eyXJ), it's good
 #   enough for me :)
-
-<<<<<<< HEAD
 rm -f /var/run/elasticsearch/elasticsearch.pid
-=======
-rm -f /var/run/elasticsearch/elasticsearch.pid /var/run/kibana5.pid
->>>>>>> ca775c2cc6f16430b61995763c98da7bf47b91e9
 
 ## initialise list of log files to stream in console (initially empty)
 OUTPUT_LOGFILES=""
