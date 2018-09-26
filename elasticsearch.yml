@@ -35,7 +35,7 @@ node.master: true
 #
 # Allow this node to store data (enabled by default):
 #
-node.data: true
+node.data: false
 #
 # ----------------------------------- Paths ------------------------------------
 #
@@ -88,7 +88,7 @@ transport.tcp.port: 9300
 # Pass an initial list of hosts to perform discovery when new node is started:
 # The default list of hosts is ["127.0.0.1", "[::1]"]
 #
-discovery.zen.ping.unicast.hosts: ["127.0.0.1"]
+discovery.zen.ping.unicast.hosts: ["192.168.1.1:9301", "192.168.1.1:9302", "192.168.1.1:9303"]
 #
 # Prevent the "split brain" by configuring the majority of nodes (total number of master-eligible nodes / 2 + 1):
 #
