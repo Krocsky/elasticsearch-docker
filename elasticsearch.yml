@@ -83,7 +83,7 @@ transport.tcp.port: 9300
 # --------------------------------- Discovery ----------------------------------
 #
 #
-discovery.zen.ping.multicast.enabled: true
+#discovery.zen.ping.multicast.enabled: true
 #
 # Pass an initial list of hosts to perform discovery when new node is started:
 # The default list of hosts is ["127.0.0.1", "[::1]"]
