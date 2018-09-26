@@ -82,7 +82,7 @@ http.port: 9200
 #
 # Set a custom port for the node to node communication (9300 by default):
 #
-transport.tcp.port: 9300
+transport.tcp.port: 9301
 #
 # --------------------------------- Discovery ----------------------------------
 #
