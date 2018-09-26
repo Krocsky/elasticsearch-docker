@@ -78,6 +78,9 @@ network.host: 0.0.0.0
 #
 http.port: 9200
 #
+#
+transport.host: localhost
+#
 # For more information, consult the network module documentation.
 #
 # Set a custom port for the node to node communication (9300 by default):
