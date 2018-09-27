@@ -14,7 +14,7 @@
 #
 # Use a descriptive name for your cluster:
 #
-cluster.name: cybereits
+cluster.name: cybereits-es
 #
 # ------------------------------------ Node ------------------------------------
 #
