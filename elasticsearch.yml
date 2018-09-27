@@ -72,13 +72,13 @@ path.repo: /var/backups
 # Set the bind address to a specific IP (IPv4 or IPv6):
 #
 #network.host: 192.168.0.1
-network.bind_host: 127.0.0.1
+network.bind_host: 0.0.0.0
 #
 #
 # Set the address other nodes will use to communicate with this node. If not
 # set, it is automatically derived. It must point to an actual IP address.
 #
-network.publish_host: 127.0.0.1
+network.publish_host: 0.0.0.0
 #
 #
 # Set a custom port for HTTP:
