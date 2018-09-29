@@ -97,16 +97,21 @@ transport.tcp.port: 9300
 # --------------------------------- Discovery ----------------------------------
 #
 #
-#discovery.zen.ping.multicast.enabled: true
+http.enabled: true
+#
+#
+discovery.zen.ping.multicast.enabled: true
+#
+# Prevent the "split brain" by configuring the majority of nodes (total number of master-eligible nodes / 2 + 1):
+#
+discovery.zen.minimum_master_nodes: 2
+#
 #
 # Pass an initial list of hosts to perform discovery when new node is started:
 # The default list of hosts is ["127.0.0.1", "[::1]"]
 #
 discovery.zen.ping.unicast.hosts: ["10.128.7.238"]
 #
-# Prevent the "split brain" by configuring the majority of nodes (total number of master-eligible nodes / 2 + 1):
-#
-discovery.zen.minimum_master_nodes: 1
 #
 # For more information, consult the zen discovery module documentation.
 #
