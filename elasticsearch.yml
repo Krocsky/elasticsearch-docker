@@ -20,7 +20,7 @@ cluster.name: cybereits-es
 #
 # Use a descriptive name for the node:
 #
-node.name: master-two
+node.name: master-three
 #
 # Add custom attributes to the node:
 #
