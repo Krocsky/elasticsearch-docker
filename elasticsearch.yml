@@ -92,7 +92,7 @@ http.port: 9200
 #
 # Set a custom port for the node to node communication (9300 by default):
 #
-#transport.tcp.port: 9301
+transport.tcp.port: 9300
 #
 # --------------------------------- Discovery ----------------------------------
 #
@@ -102,7 +102,7 @@ http.port: 9200
 # Pass an initial list of hosts to perform discovery when new node is started:
 # The default list of hosts is ["127.0.0.1", "[::1]"]
 #
-discovery.zen.ping.unicast.hosts: ["39.105.83.26"]
+discovery.zen.ping.unicast.hosts: ["10.128.7.238"]
 #
 # Prevent the "split brain" by configuring the majority of nodes (total number of master-eligible nodes / 2 + 1):
 #

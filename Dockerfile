@@ -39,7 +39,7 @@ RUN set -x \
  && set +x
 
 
-ENV ELASTIC_VERSION 6.2.3
+ENV ELASTIC_VERSION 6.4.0
 
 ### install Elasticsearch
 
@@ -85,7 +85,7 @@ RUN cp ${ES_HOME}/config/log4j2.properties ${ES_HOME}/config/jvm.options \
 ADD ./start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
 
-EXPOSE 9200 9301
+EXPOSE 9200 9300
 VOLUME /var/lib/elasticsearch
 
 CMD [ "/usr/local/bin/start.sh" ]
