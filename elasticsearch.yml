@@ -31,7 +31,7 @@ node.name: master-two
 #
 # Allow this node to be eligible as a master node (enabled by default):
 #
-node.master: true
+node.master: false
 #
 # Allow this node to store data (enabled by default):
 #
@@ -107,7 +107,7 @@ discovery.zen.ping.unicast.hosts: ["10.128.7.238"]
 #
 # Prevent the "split brain" by configuring the majority of nodes (total number of master-eligible nodes / 2 + 1):
 #
-discovery.zen.minimum_master_nodes: 2
+discovery.zen.minimum_master_nodes: 1
 #
 # For more information, consult the zen discovery module documentation.
 #
