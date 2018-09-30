@@ -28,7 +28,7 @@ trap _term SIGTERM SIGINT
 rm -f /var/run/elasticsearch/elasticsearch.pid
 
 ## initialise list of log files to stream in console (initially empty)
-OUTPUT_LOGFILES=""
+# OUTPUT_LOGFILES=""
 
 
 # ## run pre-hooks
@@ -46,44 +46,44 @@ service cron start
 
 ### Elasticsearch
 
-if [ -z "$ELASTICSEARCH_START" ]; then
-  ELASTICSEARCH_START=1
-fi
-if [ "$ELASTICSEARCH_START" -ne "1" ]; then
-  echo "ELASTICSEARCH_START is set to something different from 1, not starting..."
-else
-  # update permissions of ES data directory
-  chown -R elasticsearch:elasticsearch /var/lib/elasticsearch
+service elasticsearch start
 
-  # override ES_HEAP_SIZE variable if set
-  if [ ! -z "$ES_HEAP_SIZE" ]; then
-    awk -v LINE="-Xmx$ES_HEAP_SIZE" '{ sub(/^.Xmx.*/, LINE); print; }' ${ES_PATH_CONF}/jvm.options \
-        > ${ES_PATH_CONF}/jvm.options.new && mv ${ES_PATH_CONF}/jvm.options.new ${ES_PATH_CONF}/jvm.options
-    awk -v LINE="-Xms$ES_HEAP_SIZE" '{ sub(/^.Xms.*/, LINE); print; }' ${ES_PATH_CONF}/jvm.options \
-        > ${ES_PATH_CONF}/jvm.options.new && mv ${ES_PATH_CONF}/jvm.options.new ${ES_PATH_CONF}/jvm.options
-  fi
+# if [ -z "$ELASTICSEARCH_START" ]; then
+#   ELASTICSEARCH_START=1
+# fi
+# if [ "$ELASTICSEARCH_START" -ne "1" ]; then
+#   echo "ELASTICSEARCH_START is set to something different from 1, not starting..."
+# else
+#   # update permissions of ES data directory
+#   chown -R elasticsearch:elasticsearch /var/lib/elasticsearch
 
-  # override ES_JAVA_OPTS variable if set
-  if [ ! -z "$ES_JAVA_OPTS" ]; then
-    awk -v LINE="ES_JAVA_OPTS=\"$ES_JAVA_OPTS\"" '{ sub(/^#?ES_JAVA_OPTS=.*/, LINE); print; }' /etc/default/elasticsearch \
-        > /etc/default/elasticsearch.new && mv /etc/default/elasticsearch.new /etc/default/elasticsearch
-  fi
+#   # override ES_HEAP_SIZE variable if set
+#   if [ ! -z "$ES_HEAP_SIZE" ]; then
+#     awk -v LINE="-Xmx$ES_HEAP_SIZE" '{ sub(/^.Xmx.*/, LINE); print; }' ${ES_PATH_CONF}/jvm.options \
+#         > ${ES_PATH_CONF}/jvm.options.new && mv ${ES_PATH_CONF}/jvm.options.new ${ES_PATH_CONF}/jvm.options
+#     awk -v LINE="-Xms$ES_HEAP_SIZE" '{ sub(/^.Xms.*/, LINE); print; }' ${ES_PATH_CONF}/jvm.options \
+#         > ${ES_PATH_CONF}/jvm.options.new && mv ${ES_PATH_CONF}/jvm.options.new ${ES_PATH_CONF}/jvm.options
+#   fi
 
-  # override MAX_OPEN_FILES variable if set
-  if [ ! -z "$MAX_OPEN_FILES" ]; then
-    awk -v LINE="MAX_OPEN_FILES=$MAX_OPEN_FILES" '{ sub(/^#?MAX_OPEN_FILES=.*/, LINE); print; }' /etc/init.d/elasticsearch \
-        > /etc/init.d/elasticsearch.new && mv /etc/init.d/elasticsearch.new /etc/init.d/elasticsearch \
-        && chmod +x /etc/init.d/elasticsearch
-  fi
+#   # override ES_JAVA_OPTS variable if set
+#   if [ ! -z "$ES_JAVA_OPTS" ]; then
+#     awk -v LINE="ES_JAVA_OPTS=\"$ES_JAVA_OPTS\"" '{ sub(/^#?ES_JAVA_OPTS=.*/, LINE); print; }' /etc/default/elasticsearch \
+#         > /etc/default/elasticsearch.new && mv /etc/default/elasticsearch.new /etc/default/elasticsearch
+#   fi
 
-  # override MAX_MAP_COUNT variable if set
-  if [ ! -z "$MAX_MAP_COUNT" ]; then
-    awk -v LINE="MAX_MAP_COUNT=$MAX_MAP_COUNT" '{ sub(/^#?MAX_MAP_COUNT=.*/, LINE); print; }' /etc/init.d/elasticsearch \
-        > /etc/init.d/elasticsearch.new && mv /etc/init.d/elasticsearch.new /etc/init.d/elasticsearch \
-        && chmod +x /etc/init.d/elasticsearch
-  fi
+#   # override MAX_OPEN_FILES variable if set
+#   if [ ! -z "$MAX_OPEN_FILES" ]; then
+#     awk -v LINE="MAX_OPEN_FILES=$MAX_OPEN_FILES" '{ sub(/^#?MAX_OPEN_FILES=.*/, LINE); print; }' /etc/init.d/elasticsearch \
+#         > /etc/init.d/elasticsearch.new && mv /etc/init.d/elasticsearch.new /etc/init.d/elasticsearch \
+#         && chmod +x /etc/init.d/elasticsearch
+#   fi
 
-  service elasticsearch start
+#   # override MAX_MAP_COUNT variable if set
+#   if [ ! -z "$MAX_MAP_COUNT" ]; then
+#     awk -v LINE="MAX_MAP_COUNT=$MAX_MAP_COUNT" '{ sub(/^#?MAX_MAP_COUNT=.*/, LINE); print; }' /etc/init.d/elasticsearch \
+#         > /etc/init.d/elasticsearch.new && mv /etc/init.d/elasticsearch.new /etc/init.d/elasticsearch \
+#         && chmod +x /etc/init.d/elasticsearch
+#   fi
 
 #   # wait for Elasticsearch to start up before either starting Kibana (if enabled)
 #   # or attempting to stream its log file
