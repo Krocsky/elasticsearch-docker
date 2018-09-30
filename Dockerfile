@@ -87,5 +87,6 @@ RUN chmod +x /usr/local/bin/start.sh
 
 EXPOSE 9200 9300
 VOLUME /var/lib/elasticsearch
+VOLUME /var/log/elasticsearch/cybereits-es.log
 
 CMD [ "/usr/local/bin/start.sh" ]
