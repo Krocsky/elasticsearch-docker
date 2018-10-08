@@ -110,7 +110,7 @@ discovery.zen.minimum_master_nodes: 2
 # Pass an initial list of hosts to perform discovery when new node is started:
 # The default list of hosts is ["127.0.0.1", "[::1]"]
 #
-discovery.zen.ping.unicast.hosts: ["172.18.0.2:9301", "172.18.0.3:9302", "172.18.0.4:9303"]
+discovery.zen.ping.unicast.hosts: ["172.18.0.2:9301", "172.18.0.3:9302", "172.18.0.4:9303", "172.18.0.4:9304"]
 #
 #
 # For more information, consult the zen discovery module documentation.
