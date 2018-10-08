@@ -20,7 +20,7 @@ cluster.name: cybereits-es
 #
 # Use a descriptive name for the node:
 #
-node.name: master-two
+node.name: data-node
 #
 # Add custom attributes to the node:
 #
@@ -35,7 +35,7 @@ node.master: true
 #
 # Allow this node to store data (enabled by default):
 #
-node.data: false
+node.data: true
 #
 #
 node.max_local_storage_nodes: 4
@@ -92,7 +92,7 @@ http.port: 9200
 #
 # Set a custom port for the node to node communication (9300 by default):
 #
-transport.tcp.port: 9302
+transport.tcp.port: 9303
 #
 # --------------------------------- Discovery ----------------------------------
 #
