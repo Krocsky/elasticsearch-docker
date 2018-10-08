@@ -72,7 +72,7 @@ path.repo: /var/backups
 # Set the bind address to a specific IP (IPv4 or IPv6):
 #
 #network.host: 192.168.0.1
-network.host: 10.128.7.238
+network.host: 39.105.83.26
 #
 #
 # Set the address other nodes will use to communicate with this node. If not
@@ -110,7 +110,7 @@ discovery.zen.minimum_master_nodes: 2
 # Pass an initial list of hosts to perform discovery when new node is started:
 # The default list of hosts is ["127.0.0.1", "[::1]"]
 #
-discovery.zen.ping.unicast.hosts: ["10.128.7.238:9301", "10.128.7.238:9302", "10.128.7.238:9303"]
+discovery.zen.ping.unicast.hosts: ["39.105.83.26:9301", "39.105.83.26:9302", "39.105.83.26:9303"]
 #
 #
 # For more information, consult the zen discovery module documentation.
