@@ -86,7 +86,7 @@ network.host: 39.105.83.26
 http.port: 9200
 #
 #
-transport.host: localhost
+#transport.host: localhost
 #
 # For more information, consult the network module documentation.
 #
