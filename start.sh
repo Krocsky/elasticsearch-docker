@@ -28,13 +28,7 @@ trap _term SIGTERM SIGINT
 rm -f /var/run/elasticsearch/elasticsearch.pid
 
 ## initialise list of log files to stream in console (initially empty)
-# OUTPUT_LOGFILES=""
-
-
-# ## run pre-hooks
-# if [ -x /usr/local/bin/elk-pre-hooks.sh ]; then
-#   . /usr/local/bin/elk-pre-hooks.sh
-# fi
+OUTPUT_LOGFILES=""
 
 
 ## start services as needed
