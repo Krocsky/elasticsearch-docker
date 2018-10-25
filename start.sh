@@ -97,7 +97,7 @@ else
   fi
 
   if [ -z "$ELASTICSEARCH_URL" ]; then
-    ELASTICSEARCH_URL=${ES_PROTOCOL:-http}://localhost:9200
+    ELASTICSEARCH_URL=${ES_PROTOCOL:-http}://localhost:9203
   fi
 
   counter=0
