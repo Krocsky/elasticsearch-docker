@@ -4,9 +4,6 @@
 # Build with:
 # docker build -t <repo-user>/elastic .
 
-# Run with:
-# docker run -p 9200:9200 -it --name elastic <repo-user>/elastic
-
 FROM phusion/baseimage
 MAINTAINER Sebastien
 ENV REFRESHED_AT 2017-02-28
@@ -85,7 +82,7 @@ RUN cp ${ES_HOME}/config/log4j2.properties ${ES_HOME}/config/jvm.options \
 ADD ./start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
 
-EXPOSE 9200 9302
+EXPOSE 9202 9302
 VOLUME /var/lib/elasticsearch
 VOLUME /var/log/elasticsearch
 
