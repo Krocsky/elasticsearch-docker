@@ -35,7 +35,7 @@ node.master: true
 #
 # Allow this node to store data (enabled by default):
 #
-node.data: false
+node.data: true
 #
 #
 node.max_local_storage_nodes: 4
