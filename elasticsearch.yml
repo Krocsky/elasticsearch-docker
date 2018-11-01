@@ -14,13 +14,13 @@
 #
 # Use a descriptive name for your cluster:
 #
-cluster.name: cybereits-dev
+cluster.name: cybereits-es
 #
 # ------------------------------------ Node ------------------------------------
 #
 # Use a descriptive name for the node:
 #
-node.name: dev-master
+node.name: master-one
 #
 # Add custom attributes to the node:
 #
@@ -36,6 +36,10 @@ node.master: true
 # Allow this node to store data (enabled by default):
 #
 node.data: false
+#
+#
+node.max_local_storage_nodes: 4
+#
 #
 # ----------------------------------- Paths ------------------------------------
 #
@@ -70,26 +74,44 @@ path.repo: /var/backups
 #network.host: 192.168.0.1
 network.host: 0.0.0.0
 #
+#
+# Set the address other nodes will use to communicate with this node. If not
+# set, it is automatically derived. It must point to an actual IP address.
+#
+#network.bind_host: 192.168.0.1
+#
+#
 # Set a custom port for HTTP:
 #
-#http.port: 9200
+http.port: 9201
 #
 # For more information, consult the network module documentation.
 #
+#
+#transport.host: localhost
+#
 # Set a custom port for the node to node communication (9300 by default):
 #
-transport.tcp.port: 9300
+transport.tcp.port: 9301
 #
 # --------------------------------- Discovery ----------------------------------
+#
+#
+#http.enabled: true
+#
+#
+#discovery.zen.ping.multicast.enabled: true
+#
+# Prevent the "split brain" by configuring the majority of nodes (total number of master-eligible nodes / 2 + 1):
+#
+discovery.zen.minimum_master_nodes: 2
+#
 #
 # Pass an initial list of hosts to perform discovery when new node is started:
 # The default list of hosts is ["127.0.0.1", "[::1]"]
 #
-discovery.zen.ping.unicast.hosts: ["39.107.78.138"]
+discovery.zen.ping.unicast.hosts: ["172.18.0.2:9301", "172.18.0.3:9302", "172.18.0.5:9303"]
 #
-# Prevent the "split brain" by configuring the majority of nodes (total number of master-eligible nodes / 2 + 1):
-#
-discovery.zen.minimum_master_nodes: 1
 #
 # For more information, consult the zen discovery module documentation.
 #
