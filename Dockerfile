@@ -46,7 +46,7 @@ ENV ES_PACKAGE elasticsearch-${ES_VERSION}.tar.gz
 ENV ES_GID 991
 ENV ES_UID 991
 ENV ES_PATH_CONF /etc/elasticsearch
-ENV ES_PATH_BACKUP /var/backups
+ENV ES_PATH_BACKUP /data/backup/elasticsearch
 
 RUN mkdir ${ES_HOME} \
  && curl -O https://artifacts.elastic.co/downloads/elasticsearch/${ES_PACKAGE} \
