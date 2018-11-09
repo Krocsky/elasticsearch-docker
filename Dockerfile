@@ -32,7 +32,6 @@ RUN set -x \
  && gosu nobody true \
  && apt-get update -qq \
  && apt-get install -qqy openjdk-8-jdk tzdata \
- && apt-get update -qq \
  && apt-get install fuse sshfs \
  && apt-get clean \
  && set +x
