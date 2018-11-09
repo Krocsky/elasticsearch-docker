@@ -46,13 +46,13 @@ ENV ES_PACKAGE elasticsearch-${ES_VERSION}.tar.gz
 ENV ES_GID 991
 ENV ES_UID 991
 ENV ES_PATH_CONF /etc/elasticsearch
-ENV ES_PATH_BACKUP /data/backup/elasticsearch
+ENV ES_PATH_BACKUP /var/backups
 
 RUN mkdir ${ES_HOME} \
  && curl -O https://artifacts.elastic.co/downloads/elasticsearch/${ES_PACKAGE} \
  && tar xzf ${ES_PACKAGE} -C ${ES_HOME} --strip-components=1 \
  && rm -f ${ES_PACKAGE} \
- && mount 39.105.83.26:/data/backup/elasticsearch /var/backups \
+ && mount -t nfs 39.105.83.26:/data/backup/elasticsearch /var/backups \
  && groupadd -r elasticsearch -g ${ES_GID} \
  && useradd -r -s /usr/sbin/nologin -M -c "Elasticsearch service user" -u ${ES_UID} -g elasticsearch elasticsearch \
  && mkdir -p /var/log/elasticsearch ${ES_PATH_CONF} ${ES_PATH_CONF}/scripts /var/lib/elasticsearch ${ES_PATH_BACKUP} \
