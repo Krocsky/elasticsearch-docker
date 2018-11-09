@@ -52,11 +52,12 @@ RUN mkdir ${ES_HOME} \
  && curl -O https://artifacts.elastic.co/downloads/elasticsearch/${ES_PACKAGE} \
  && tar xzf ${ES_PACKAGE} -C ${ES_HOME} --strip-components=1 \
  && rm -f ${ES_PACKAGE} \
- && mount -t nfs 39.105.83.26:/data/backup/elasticsearch /var/backups \
+ ## && mount -t nfs 39.105.83.26:/data/backup/elasticsearch /var/backups \
  && groupadd -r elasticsearch -g ${ES_GID} \
  && useradd -r -s /usr/sbin/nologin -M -c "Elasticsearch service user" -u ${ES_UID} -g elasticsearch elasticsearch \
  && mkdir -p /var/log/elasticsearch ${ES_PATH_CONF} ${ES_PATH_CONF}/scripts /var/lib/elasticsearch ${ES_PATH_BACKUP} \
  && chown -R elasticsearch:elasticsearch ${ES_HOME} /var/log/elasticsearch /var/lib/elasticsearch ${ES_PATH_CONF} ${ES_PATH_BACKUP} \
+ && chmod -R 777 ${ES_PATH_BACKUP} \
  && ./opt/elasticsearch/bin/elasticsearch-plugin install --batch https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v${ELASTIC_VERSION}/elasticsearch-analysis-ik-${ELASTIC_VERSION}.zip
 
 ADD ./elasticsearch-init /etc/init.d/elasticsearch
