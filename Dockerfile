@@ -50,7 +50,7 @@ ENV ES_PATH_CONF /etc/elasticsearch
 ## 公共文件共享目录（挂载本地目录）
 ENV ES_PATH_BACKUP /mnt/backup
 ## masterOne节点上的存储目录，fs server
-ENV ES_FS_PATH /data/es_backup
+## ENV ES_FS_PATH /data/es_backup
 
 RUN mkdir ${ES_HOME} \
  && curl -O https://artifacts.elastic.co/downloads/elasticsearch/${ES_PACKAGE} \
@@ -59,7 +59,7 @@ RUN mkdir ${ES_HOME} \
  && groupadd -r elasticsearch -g ${ES_GID} \
  && useradd -r -s /usr/sbin/nologin -M -c "Elasticsearch service user" -u ${ES_UID} -g elasticsearch elasticsearch \
  && mkdir -p /var/log/elasticsearch ${ES_PATH_CONF} ${ES_PATH_CONF}/scripts /var/lib/elasticsearch ${ES_PATH_BACKUP} \
- && chown -R elasticsearch:elasticsearch ${ES_HOME} /var/log/elasticsearch /var/lib/elasticsearch ${ES_PATH_CONF} ${ES_PATH_BACKUP} ${ES_FS_PATH} \
+ && chown -R elasticsearch:elasticsearch ${ES_HOME} /var/log/elasticsearch /var/lib/elasticsearch ${ES_PATH_CONF} ${ES_PATH_BACKUP} \
  && ./opt/elasticsearch/bin/elasticsearch-plugin install --batch https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v${ELASTIC_VERSION}/elasticsearch-analysis-ik-${ELASTIC_VERSION}.zip
 
 ADD ./elasticsearch-init /etc/init.d/elasticsearch
@@ -76,8 +76,8 @@ ADD ./elasticsearch.yml ${ES_PATH_CONF}/elasticsearch.yml
 ADD ./elasticsearch-default /etc/default/elasticsearch
 RUN cp ${ES_HOME}/config/log4j2.properties ${ES_HOME}/config/jvm.options \
     ${ES_PATH_CONF} \
- && chown -R elasticsearch:elasticsearch ${ES_PATH_CONF} ${ES_FS_PATH} \
- && chmod -R +r ${ES_PATH_CONF} ${ES_FS_PATH}
+ && chown -R elasticsearch:elasticsearch ${ES_PATH_CONF} \
+ && chmod -R +r ${ES_PATH_CONF}
 
 ###############################################################################
 #                                   START
