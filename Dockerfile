@@ -46,10 +46,7 @@ ENV ES_PACKAGE elasticsearch-${ES_VERSION}.tar.gz
 ENV ES_GID 991
 ENV ES_UID 991
 ENV ES_PATH_CONF /etc/elasticsearch
-## 公共文件共享目录（挂载本地目录）
-ENV ES_PATH_BACKUP /mnt/backup
-## masterOne节点上的存储目录，fs server
-## ENV ES_FS_PATH /data/es_backup
+ENV ES_PATH_BACKUP /var/backups
 
 RUN mkdir ${ES_HOME} \
  && curl -O https://artifacts.elastic.co/downloads/elasticsearch/${ES_PACKAGE} \
